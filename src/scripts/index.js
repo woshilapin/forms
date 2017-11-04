@@ -15,8 +15,9 @@ window.addEventListener('load', () => {
 	let game = Game({
 		"number": 5,
 		"frame": [0, 0, canvas.width, canvas.height],
-		"radiusRange": [50, 100], // can be an fixed integer or a range [10, 40]
-		"colorSet": ['red', 'blue', 'green']
+		"radiusRange": [50, 100], // can be a fixed integer or a range [10, 40]
+		"formsSet": ['Circle', 'Square'],
+		"colorSet": ['red', 'blue', 'green'],
 	});
 
 	function draw() {

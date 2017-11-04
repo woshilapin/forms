@@ -4,15 +4,23 @@ function Game({
 	number,
 	frame,
 	radiusRange,
-	colorSet
+	formsSet,
+	colorSet,
 }) {
 	let forms = [];
 
 	function init(number) {
+		while(formsSet.length < number) {
+			let formTemplates = Object.keys(Forms);
+			let formRandomIndex = Math.floor(Math.random() * formTemplates.length);
+			formsSet.push(formTemplates[formRandomIndex]);
+		}
 		while(forms.length < number) {
-			let form = generateForm();
+			console.log(formsSet);
+			let form = generateForm(formsSet[0]);
 			if(!isOverlapping(form, forms)) {
 				forms.push(form);
+				formsSet.splice(0, 1);
 			} else {
 				console.log('Forms overlapping!');
 			}
@@ -20,10 +28,8 @@ function Game({
 	}
 	init(number);
 
-	function generateForm() {
-		let formTemplates = Object.keys(Forms);
-		let formRandomIndex = Math.floor(Math.random() * formTemplates.length);
-		let formTemplate = Forms[formTemplates[formRandomIndex]];
+	function generateForm(formName) {
+		let formTemplate = Forms[formName];
 		let radius = radiusRange.length === 2
 			? Math.floor(Math.random() * (radiusRange[1] - radiusRange[0])) + radiusRange[0]
 			: radiusRange;
