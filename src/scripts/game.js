@@ -13,7 +13,9 @@ function Game({
 			let form = generateForm({
 				radiusRange
 			});
-			forms.push(form);
+			if(!isOverlapping(form, forms)) {
+				forms.push(form);
+			}
 		}
 	}
 	init(number);
@@ -34,6 +36,35 @@ function Game({
 			radius,
 			color
 		});
+	}
+
+	function isOverlapping(formA, formB) {
+		if(Array.isArray(formB)) {
+			for(let f of formB) {
+				if(isOverlapping(formA, f)) {
+					return true;
+				}
+			}
+			return false;
+		}
+		let boxA = [
+			formA.center[0] - formA.radius,
+			formA.center[1] - formA.radius,
+			formA.center[0] + formA.radius,
+			formA.center[1] + formA.radius,
+		];
+		let boxB = [
+			formB.center[0] - formB.radius,
+			formB.center[1] - formB.radius,
+			formB.center[0] + formB.radius,
+			formB.center[1] + formB.radius,
+		];
+		if((boxA[0] > boxB[0] && boxA[0] < boxB[2]) || (boxA[2] > boxB[0] && boxA[2] < boxB[2])) {
+			if((boxA[1] > boxB[1] && boxA[1] < boxB[3]) || (boxA[3] > boxB[1] && boxA[3] < boxB[3])) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	return {
