@@ -14,9 +14,8 @@ function Square(args) {
 		if (x >= corner[0] && x <= corner[0] + diameter
 			&& y >= corner[1] && y <= corner[1] + diameter) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 	return {
 		center,

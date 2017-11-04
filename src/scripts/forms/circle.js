@@ -14,9 +14,8 @@ function Circle(args) {
 		let norm = Math.sqrt(sum);
 		if (norm <= radius) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 	return {
 		center,

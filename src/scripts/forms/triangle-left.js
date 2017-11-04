@@ -13,9 +13,9 @@ function TriangleLeft(args) {
 		context.closePath();
 	}
 	function intersect(x, y) {
-		if((x < center[0] + radius)
-			&& (y > (center[0] - radius - x) / 2 + center[1])
-			&& (y < (x + radius - center[0]) / 2 + center[1])) {
+		if((x <= center[0] + radius)
+			&& (y >= (center[0] - radius - x) / 2 + center[1])
+			&& (y <= (x + radius - center[0]) / 2 + center[1])) {
 			return true;
 		}
 		return false;
