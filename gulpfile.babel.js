@@ -37,12 +37,14 @@ export function clean() {
 		.pipe(gclean({force: true}))
 		.pipe(gulp.dest(paths.clean.dst));
 }
+clean.description = 'Clean directory';
 
 export function views() {
 	return gulp.src(paths.views.src, {"since": gulp.lastRun(views)})
 		.pipe(ghtmlmin(htmlminConfig))
 		.pipe(gulp.dest(paths.views.dst));
 };
+views.description = 'Generate HTML';
 
 export async function styles() {
 	let config = Object.create(await postcssrc());
@@ -52,19 +54,34 @@ export async function styles() {
 		.pipe(gsourcemaps.write('.'))
 		.pipe(gulp.dest(paths.styles.dst));
 };
+styles.description = 'Generate CSS';
 
 export function scripts() {
 	return gulp.src(paths.scripts.src, {"since": gulp.lastRun(scripts)})
 		.pipe(gwebpack(webpackConfig, webpack))
 		.pipe(gulp.dest(paths.scripts.dst));
 };
+scripts.description = 'Generate Javascript';
 
-export function watch() {
-	gulp.watch(paths.views.src, views);
-	gulp.watch(paths.styles.src, styles);
-	webpackConfig.watch = true;
-	return scripts();
-};
-gulp.task('watch', watch);
+export let build = gulp.series(
+	clean,
+	gulp.parallel(
+		views,
+		styles,
+		scripts
+	)
+);
+build.description = 'Build the whole project';
 
-export default gulp.series(clean, gulp.parallel(views, styles, scripts));
+export let watch = gulp.series(
+	build,
+	function watch() {
+		gulp.watch(paths.views.src, views);
+		gulp.watch(paths.styles.src, styles);
+		webpackConfig.watch = true;
+		return scripts();
+	}
+);
+watch.description = 'Activate watch mode';
+
+export default build;
