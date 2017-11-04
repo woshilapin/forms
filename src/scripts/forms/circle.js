@@ -4,15 +4,15 @@ function Circle(args) {
 	let color = args.color;
 	function draw(context) {
 		context.beginPath();
-		context.fillStyle = color;
-		context.arc(center[0], center[1], radius, 0, 2.0 * Math.PI);
+		context.fillStyle = this.color;
+		context.arc(this.center[0], this.center[1], this.radius, 0, 2.0 * Math.PI);
 		context.fill();
 		context.closePath();
 	}
 	function intersect(x, y) {
-		let sum = (x - center[0])**2 + (y - center[1])**2;
+		let sum = (x - this.center[0])**2 + (y - this.center[1])**2;
 		let norm = Math.sqrt(sum);
-		if (norm <= radius) {
+		if (norm <= this.radius) {
 			return true;
 		}
 		return false;
@@ -22,7 +22,7 @@ function Circle(args) {
 		radius,
 		color,
 		draw,
-		intersect
+		intersect,
 	};
 }
 

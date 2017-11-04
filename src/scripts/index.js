@@ -33,11 +33,23 @@ window.addEventListener('load', () => {
 	}
 	window.requestAnimationFrame(render);
 
+	function destroy(index) {
+		let form = game.forms[index];
+		if(form.radius < 4) {
+			game.forms.splice(index, 1);
+			render();
+		} else {
+			form.radius *= 0.75;
+			render();
+			setTimeout(destroy, 1000/30, index);
+		}
+	}
+
 	canvas.addEventListener('click', event => {
 		event.stopPropagation();
 		_.reverse(game.forms).forEach((form, index) => {
 			if (form.intersect(event.clientX, event.clientY)) {
-				game.forms.splice(index, 1);
+				destroy(index);
 			}
 		});
 		window.requestAnimationFrame(render);

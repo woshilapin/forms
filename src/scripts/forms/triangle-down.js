@@ -3,19 +3,25 @@ function TriangleDown(args) {
 	let radius = args.radius;
 	let color = args.color;
 	function draw(context) {
+		let r = this.radius;
+		let cx = this.center[0];
+		let cy = this.center[1];
 		context.beginPath();
-		context.fillStyle = color;
-		context.moveTo(center[0], center[1] + radius);
-		context.lineTo(center[0] - radius, center[1] - radius);
-		context.lineTo(center[0] + radius, center[1] - radius);
-		context.lineTo(center[0], center[1] + radius);
+		context.fillStyle = this.color;
+		context.moveTo(cx, cy + r);
+		context.lineTo(cx - r, cy - r);
+		context.lineTo(cx + r, cy - r);
+		context.lineTo(cx, cy + r);
 		context.fill();
 		context.closePath();
 	}
 	function intersect(x, y) {
-		if((y >= center[1] - radius)
-			&& (y <= - 2 * x + center[1] + radius + 2 * center[0])
-			&& (y <= 2 * x + center[1] + radius - 2 * center[0])) {
+		let r = this.radius;
+		let cx = this.center[0];
+		let cy = this.center[1];
+		if((y >= cy - r)
+			&& (y <= - 2 * x + cy + r + 2 * cx)
+			&& (y <= 2 * x + cy + r - 2 * cx)) {
 			return true;
 		}
 		return false;
