@@ -30,7 +30,7 @@ function Game({
 		let radius = radiusRange.length === 2
 			? Math.floor(Math.random() * (radiusRange[1] - radiusRange[0])) + radiusRange[0]
 			: radiusRange;
-		// FIXME: If size of frame is smaller than twice the radius, foolowing code produces weird results
+		// FIXME: If size of frame is smaller than twice the radius, following code produces weird results
 		let x = Math.floor(Math.random() * (frame[2] - frame[0] - 2 * radius)) + radius;
 		let y = Math.floor(Math.random() * (frame[3] - frame[1] - 2 * radius)) + radius;
 		let center = [x, y];
