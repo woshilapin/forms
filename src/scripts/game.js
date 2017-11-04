@@ -10,23 +10,23 @@ function Game({
 
 	function init(number) {
 		while(forms.length < number) {
-			let form = generateForm({
-				radiusRange
-			});
+			let form = generateForm();
 			if(!isOverlapping(form, forms)) {
 				forms.push(form);
+			} else {
+				console.log('Forms overlapping!');
 			}
 		}
 	}
 	init(number);
 
-	function generateForm({
-		radiusRange
-	}) {
+	function generateForm() {
 		let formTemplates = Object.keys(Forms);
 		let formRandomIndex = Math.floor(Math.random() * formTemplates.length);
 		let formTemplate = Forms[formTemplates[formRandomIndex]];
-		let radius = radiusRange.length === 2 ? Math.floor(Math.random() * (radiusRange[1] - radiusRange[0])) + radiusRange[0] : radiusRange;
+		let radius = radiusRange.length === 2
+			? Math.floor(Math.random() * (radiusRange[1] - radiusRange[0])) + radiusRange[0]
+			: radiusRange;
 		let x = Math.floor(Math.random() * (frame[2] - frame[0] - 2 * radius)) + radius;
 		let y = Math.floor(Math.random() * (frame[3] - frame[1] - 2 * radius)) + radius;
 		let center = [x, y];
@@ -59,10 +59,29 @@ function Game({
 			formB.center[0] + formB.radius,
 			formB.center[1] + formB.radius,
 		];
-		if((boxA[0] > boxB[0] && boxA[0] < boxB[2]) || (boxA[2] > boxB[0] && boxA[2] < boxB[2])) {
-			if((boxA[1] > boxB[1] && boxA[1] < boxB[3]) || (boxA[3] > boxB[1] && boxA[3] < boxB[3])) {
-				return true;
-			}
+		if(boxA[0] > boxB[0] && boxA[0] < boxB[2] && boxA[1] > boxB[1] && boxA[1] < boxB[3]) {
+			return true;
+		}
+		if(boxA[2] > boxB[0] && boxA[2] < boxB[2] && boxA[1] > boxB[1] && boxA[1] < boxB[3]) {
+			return true;
+		}
+		if(boxA[0] > boxB[0] && boxA[0] < boxB[2] && boxA[3] > boxB[1] && boxA[3] < boxB[3]) {
+			return true;
+		}
+		if(boxA[2] > boxB[0] && boxA[2] < boxB[2] && boxA[3] > boxB[1] && boxA[3] < boxB[3]) {
+			return true;
+		}
+		if(boxB[0] > boxA[0] && boxB[0] < boxA[2] && boxB[1] > boxA[1] && boxB[1] < boxA[3]) {
+			return true;
+		}
+		if(boxB[2] > boxA[0] && boxB[2] < boxA[2] && boxB[1] > boxA[1] && boxB[1] < boxA[3]) {
+			return true;
+		}
+		if(boxB[0] > boxA[0] && boxB[0] < boxA[2] && boxB[3] > boxA[1] && boxB[3] < boxA[3]) {
+			return true;
+		}
+		if(boxB[2] > boxA[0] && boxB[2] < boxA[2] && boxB[3] > boxA[1] && boxB[3] < boxA[3]) {
+			return true;
 		}
 		return false;
 	}
