@@ -33,7 +33,7 @@ window.addEventListener('load', () => {
 	canvas.height = window.height;
 	let game = Game({
 		"frame": [0, 0, canvas.width, canvas.height],
-		"colorsSet": ['red', 'blue', 'green'],
+		"colorsSet": ['rgb(186,0,0)', 'rgb(0,0,186)', 'rgb(0,186,0)'],
 		number,
 		radiusRange, // can be a fixed integer or a range [10, 40]
 		formsSet,
