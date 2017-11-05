@@ -4,6 +4,26 @@ import Firework from './fireworks.js';
 
 const framerate = 1 / 30;
 
+let number = 10;
+let radiusRange = [50, 100];
+let formsSet = ['Circle', 'Square'];
+
+const query = new URLSearchParams(window.location.search);
+number = query.get('number') || query.get('nombreFormes') || number;
+if(query.has('radiusRange') || query.has('tailleFormes')) {
+	let radiusRangeQuery = query.get('radiusRange') || query.get('tailleFormes');
+	let radiusRangeArray = radiusRangeQuery.split(',').map(s => parseInt(s));
+	if(radiusRangeArray.length === 1) {
+		radiusRange = radiusRangeArray[0];
+	} else {
+		radiusRange = radiusRangeArray;
+	}
+}
+if(query.has('formsSet') || query.has('listeFormes')) {
+	let formsSetQuery = query.get('formsSet') || query.get('listeFormes');
+	formsSet = formsSetQuery.split(',') || formsSet;
+}
+
 window.addEventListener('load', () => {
 	let canvas = document.getElementById('canvas');
 	let context = canvas.getContext('2d');
@@ -11,16 +31,12 @@ window.addEventListener('load', () => {
 	window.height = window.innerHeight;
 	canvas.width = window.width;
 	canvas.height = window.height;
-	canvas.center = {
-		x: window.width / 2.0,
-		y: window.height / 2.0
-	};
 	let game = Game({
-		"number": 10,
 		"frame": [0, 0, canvas.width, canvas.height],
-		"radiusRange": [50, 100], // can be a fixed integer or a range [10, 40]
-		"formsSet": ['Circle', 'Square'],
-		"colorSet": ['red', 'blue', 'green'],
+		"colorsSet": ['red', 'blue', 'green'],
+		number,
+		radiusRange, // can be a fixed integer or a range [10, 40]
+		formsSet,
 	});
 	let destroys = [];
 	let fireworks = [];

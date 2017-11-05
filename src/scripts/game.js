@@ -1,11 +1,11 @@
 import Forms from './forms.js';
 
 function Game({
-	number,
 	frame,
+	colorsSet,
+	number,
 	radiusRange,
 	formsSet,
-	colorSet,
 }) {
 	let forms = [];
 
@@ -34,7 +34,7 @@ function Game({
 		let x = Math.floor(Math.random() * (frame[2] - frame[0] - 2 * radius)) + radius;
 		let y = Math.floor(Math.random() * (frame[3] - frame[1] - 2 * radius)) + radius;
 		let center = [x, y];
-		let color = colorSet[Math.floor(Math.random() * colorSet.length)];
+		let color = colorsSet[Math.floor(Math.random() * colorsSet.length)];
 		return formTemplate({
 			center,
 			radius,
