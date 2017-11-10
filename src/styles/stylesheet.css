@@ -11,12 +11,14 @@ body {
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 100vw;
-	height: 100vh;
+	width: 0;
+	height: 0;
 	background: gray(33%);
 	opacity: 0;
 
 	&.animate {
+		width: 100vw;
+		height: 100vh;
 		opacity: 0.8;
 		transition-property: opacity;
 		transition-duration: 2s;
@@ -24,6 +26,7 @@ body {
 	}
 
 	& img {
+		display: none;
 		position: fixed;
 		top: 40vh;
 		left: 40vw;

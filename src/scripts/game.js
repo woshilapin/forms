@@ -16,10 +16,9 @@ function Game({
 			formsSet.push(formTemplates[formRandomIndex]);
 		}
 		while(forms.length < number) {
-			let form = generateForm(formsSet[0]);
+			let form = generateForm(formsSet[forms.length]);
 			if(!isOverlapping(form, forms)) {
 				forms.push(form);
-				formsSet.splice(0, 1);
 			}
 		}
 	}

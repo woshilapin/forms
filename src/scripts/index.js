@@ -4,16 +4,39 @@ import Firework from './fireworks.js';
 
 const framerate = 1 / 30;
 const query = new URLSearchParams(window.location.search);
+const conf = {
+	number: 10,
+	radiusRange: [50, 100],
+	formsSet: ['Circle', 'Circle', 'Circle'],
+	goal: 'circle',
+}
 
-let number = 10;
-let radiusRange = [50, 100];
-let formsSet = ['Circle', 'Circle', 'Circle'];
-let goal = 'circle';
+let number = conf.number;
+let radiusRange = conf.radiusRange;
+let formsSet = conf.formsSet;
+let goal = conf.goal;
 let game = undefined;
 let destroys = [];
 let fireworks = [];
 
 function init() {
+	number = query.get('number') || query.get('nombreFormes') || conf.number;
+	if(query.has('radiusRange') || query.has('tailleFormes')) {
+		let radiusRangeQuery = query.get('radiusRange') || query.get('tailleFormes') || conf.radiusRange;
+		let radiusRangeArray = radiusRangeQuery.split(',').map(s => parseInt(s));
+		if(radiusRangeArray.length === 1) {
+			radiusRange = radiusRangeArray[0];
+		} else {
+			radiusRange = radiusRangeArray;
+		}
+	}
+	if(query.has('formsSet') || query.has('listeFormes')) {
+		formsSet = query.get('formsSet').split(',') || query.get('listeFormes').split(',');
+	} else {
+		formsSet = conf.formsSet;
+	}
+	goal = query.get('goal') || query.get('objectif') || conf.goal;
+
 	game = Game({
 		"frame": [0, 0, canvas.width, canvas.height],
 		"colorsSet": ['rgb(186,0,0)', 'rgb(0,0,186)', 'rgb(0,186,0)'],
@@ -23,22 +46,6 @@ function init() {
 	});
 	destroys = [];
 	fireworks = [];
-
-	number = query.get('number') || query.get('nombreFormes') || number;
-	if(query.has('radiusRange') || query.has('tailleFormes')) {
-		let radiusRangeQuery = query.get('radiusRange') || query.get('tailleFormes');
-		let radiusRangeArray = radiusRangeQuery.split(',').map(s => parseInt(s));
-		if(radiusRangeArray.length === 1) {
-			radiusRange = radiusRangeArray[0];
-		} else {
-			radiusRange = radiusRangeArray;
-		}
-	}
-	if(query.has('formsSet') || query.has('listeFormes')) {
-		let formsSetQuery = query.get('formsSet') || query.get('listeFormes');
-		formsSet = formsSetQuery.split(',') || formsSet;
-	}
-	goal = query.get('goal') || query.get('objectif') || goal;
 }
 
 window.addEventListener('load', () => {
@@ -120,16 +127,21 @@ window.addEventListener('load', () => {
 	function end() {
 		let animal = animals[Math.floor(Math.random() * animals.length)];
 		replayAnimal.src = `images/${animal}.gif`;
+		replayAnimal.style.display = 'block';
 		replay.classList.add('animate');
 	}
 
-	document.addEventListener('click', event => {
+	replay.addEventListener('click', event => {
 		event.stopPropagation();
 		if (replay.classList.contains('animate')) {
 			init();
+			replayAnimal.style.display = 'none';
 			replay.classList.remove('animate');
-			return;
 		}
+	});
+
+	canvas.addEventListener('click', event => {
+		event.stopPropagation();
 		_.reverse(game.forms).forEach((form, index) => {
 			if (form.intersect(event.clientX, event.clientY)) {
 				if (form.type === goal) {
