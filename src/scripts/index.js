@@ -33,15 +33,22 @@ window.addEventListener('load', () => {
 	window.height = window.innerHeight;
 	canvas.width = window.width;
 	canvas.height = window.height;
-	let game = Game({
-		"frame": [0, 0, canvas.width, canvas.height],
-		"colorsSet": ['rgb(186,0,0)', 'rgb(0,0,186)', 'rgb(0,186,0)'],
-		number,
-		radiusRange, // can be a fixed integer or a range [10, 40]
-		formsSet,
-	});
+	let game = undefined;
 	let destroys = [];
 	let fireworks = [];
+
+	function init() {
+		game = Game({
+			"frame": [0, 0, canvas.width, canvas.height],
+			"colorsSet": ['rgb(186,0,0)', 'rgb(0,0,186)', 'rgb(0,186,0)'],
+			number,
+			radiusRange, // can be a fixed integer or a range [10, 40]
+			formsSet,
+		});
+		destroys = [];
+		fireworks = [];
+	}
+	init();
 
 	function renderForms() {
 		for (let form of game.forms) {
@@ -118,6 +125,11 @@ window.addEventListener('load', () => {
 
 	document.addEventListener('click', event => {
 		event.stopPropagation();
+		if (replay.classList.contains('animate')) {
+			init();
+			replay.classList.remove('animate');
+			return;
+		}
 		_.reverse(game.forms).forEach((form, index) => {
 			if (form.intersect(event.clientX, event.clientY)) {
 				if (form.type === goal) {
