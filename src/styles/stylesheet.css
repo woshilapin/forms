@@ -3,3 +3,31 @@ body {
 	margin: 0;
 }
 
+#canvas {
+	background: gray(50%);
+}
+
+#replay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background: gray(33%);
+	opacity: 0;
+
+	&.animate {
+		opacity: 0.8;
+		transition-property: opacity;
+		transition-duration: 2s;
+		transition-timing-function: ease-in-out;
+	}
+
+	& img {
+		position: fixed;
+		top: 40vh;
+		left: 40vw;
+		width: 20vw;
+		text-align: center;
+	}
+}

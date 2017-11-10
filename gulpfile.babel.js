@@ -30,6 +30,10 @@ const paths = {
 		"src": 'src/scripts/index.js',
 		"dst": 'dist/scripts/',
 	},
+	"images": {
+		"src": 'src/images/*',
+		"dest": 'dist/images',
+	},
 };
 
 export function clean() {
@@ -63,12 +67,19 @@ export function scripts() {
 };
 scripts.description = 'Generate Javascript';
 
+export function images() {
+	return gulp.src(paths.images.src, {"since": gulp.lastRun(images)})
+		.pipe(gulp.dest(paths.images.dest));
+}
+images.description = 'Copy images';
+
 export let build = gulp.series(
 	clean,
 	gulp.parallel(
 		views,
 		styles,
-		scripts
+		scripts,
+		images
 	)
 );
 build.description = 'Build the whole project';
@@ -78,6 +89,7 @@ export let watch = gulp.series(
 	function watch() {
 		gulp.watch(paths.views.src, views);
 		gulp.watch(paths.styles.src, styles);
+		gulp.watch(paths.images.src, images);
 		webpackConfig.watch = true;
 		return scripts();
 	}

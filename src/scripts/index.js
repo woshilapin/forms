@@ -62,7 +62,7 @@ window.addEventListener('load', () => {
 	}
 
 	function render() {
-		context.fillStyle = 'white';
+		context.fillStyle = canvas.style.background || 'white';
 		context.fillRect(0, 0, canvas.width, canvas.height);
 		renderForms();
 		renderDestroys();
@@ -107,7 +107,16 @@ window.addEventListener('load', () => {
 		}
 	}
 
-	canvas.addEventListener('click', event => {
+	let replay = document.getElementById('replay');
+	let replayAnimal = document.getElementById('animal');
+	let animals = ['pony', 'doggy', 'kitty', 'foxy'];
+	function end() {
+		let animal = animals[Math.floor(Math.random() * animals.length)];
+		replayAnimal.src = `images/${animal}.gif`;
+		replay.classList.add('animate');
+	}
+
+	document.addEventListener('click', event => {
 		event.stopPropagation();
 		_.reverse(game.forms).forEach((form, index) => {
 			if (form.intersect(event.clientX, event.clientY)) {
@@ -117,6 +126,10 @@ window.addEventListener('load', () => {
 					if(!animationOn) {
 						animationOn = true;
 						animate();
+					}
+					let goalList = _.filter(game.forms, f => f.type === goal);
+					if (goalList.length === 0) {
+						end();
 					}
 				}
 			}
