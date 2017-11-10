@@ -3,28 +3,43 @@ import Game from './game.js';
 import Firework from './fireworks.js';
 
 const framerate = 1 / 30;
+const query = new URLSearchParams(window.location.search);
 
 let number = 10;
 let radiusRange = [50, 100];
-let formsSet = ['Circle', 'Square'];
+let formsSet = ['Circle', 'Circle', 'Circle'];
 let goal = 'circle';
+let game = undefined;
+let destroys = [];
+let fireworks = [];
 
-const query = new URLSearchParams(window.location.search);
-number = query.get('number') || query.get('nombreFormes') || number;
-if(query.has('radiusRange') || query.has('tailleFormes')) {
-	let radiusRangeQuery = query.get('radiusRange') || query.get('tailleFormes');
-	let radiusRangeArray = radiusRangeQuery.split(',').map(s => parseInt(s));
-	if(radiusRangeArray.length === 1) {
-		radiusRange = radiusRangeArray[0];
-	} else {
-		radiusRange = radiusRangeArray;
+function init() {
+	game = Game({
+		"frame": [0, 0, canvas.width, canvas.height],
+		"colorsSet": ['rgb(186,0,0)', 'rgb(0,0,186)', 'rgb(0,186,0)'],
+		number,
+		radiusRange, // can be a fixed integer or a range [10, 40]
+		formsSet,
+	});
+	destroys = [];
+	fireworks = [];
+
+	number = query.get('number') || query.get('nombreFormes') || number;
+	if(query.has('radiusRange') || query.has('tailleFormes')) {
+		let radiusRangeQuery = query.get('radiusRange') || query.get('tailleFormes');
+		let radiusRangeArray = radiusRangeQuery.split(',').map(s => parseInt(s));
+		if(radiusRangeArray.length === 1) {
+			radiusRange = radiusRangeArray[0];
+		} else {
+			radiusRange = radiusRangeArray;
+		}
 	}
+	if(query.has('formsSet') || query.has('listeFormes')) {
+		let formsSetQuery = query.get('formsSet') || query.get('listeFormes');
+		formsSet = formsSetQuery.split(',') || formsSet;
+	}
+	goal = query.get('goal') || query.get('objectif') || goal;
 }
-if(query.has('formsSet') || query.has('listeFormes')) {
-	let formsSetQuery = query.get('formsSet') || query.get('listeFormes');
-	formsSet = formsSetQuery.split(',') || formsSet;
-}
-goal = query.get('goal') || query.get('objectif') || goal;
 
 window.addEventListener('load', () => {
 	let canvas = document.getElementById('canvas');
@@ -33,21 +48,6 @@ window.addEventListener('load', () => {
 	window.height = window.innerHeight;
 	canvas.width = window.width;
 	canvas.height = window.height;
-	let game = undefined;
-	let destroys = [];
-	let fireworks = [];
-
-	function init() {
-		game = Game({
-			"frame": [0, 0, canvas.width, canvas.height],
-			"colorsSet": ['rgb(186,0,0)', 'rgb(0,0,186)', 'rgb(0,186,0)'],
-			number,
-			radiusRange, // can be a fixed integer or a range [10, 40]
-			formsSet,
-		});
-		destroys = [];
-		fireworks = [];
-	}
 	init();
 
 	function renderForms() {
