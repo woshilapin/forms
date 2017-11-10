@@ -22,6 +22,7 @@ function Square(args) {
 		return false;
 	}
 	return {
+		type: 'square',
 		center,
 		radius,
 		color,

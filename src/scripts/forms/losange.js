@@ -37,6 +37,7 @@ function Losange(args) {
 		return false;
 	}
 	return {
+		type: 'losange',
 		center,
 		radius,
 		color,

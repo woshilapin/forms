@@ -5,7 +5,7 @@ function Firework({
 	center,
 	color,
 }) {
-	let size = 2;
+	let size = 1;
 	let particles = [];
 
 	function init(number, speed) {

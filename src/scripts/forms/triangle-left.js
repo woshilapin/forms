@@ -27,6 +27,7 @@ function TriangleLeft(args) {
 		return false;
 	}
 	return {
+		type: 'triangle',
 		center,
 		radius,
 		color,

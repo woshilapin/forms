@@ -7,6 +7,7 @@ const framerate = 1 / 30;
 let number = 10;
 let radiusRange = [50, 100];
 let formsSet = ['Circle', 'Square'];
+let goal = 'circle';
 
 const query = new URLSearchParams(window.location.search);
 number = query.get('number') || query.get('nombreFormes') || number;
@@ -23,6 +24,7 @@ if(query.has('formsSet') || query.has('listeFormes')) {
 	let formsSetQuery = query.get('formsSet') || query.get('listeFormes');
 	formsSet = formsSetQuery.split(',') || formsSet;
 }
+goal = query.get('goal') || query.get('objectif') || goal;
 
 window.addEventListener('load', () => {
 	let canvas = document.getElementById('canvas');
@@ -109,11 +111,13 @@ window.addEventListener('load', () => {
 		event.stopPropagation();
 		_.reverse(game.forms).forEach((form, index) => {
 			if (form.intersect(event.clientX, event.clientY)) {
-				destroys.push(form);
-				game.forms.splice(index, 1);
-				if(!animationOn) {
-					animationOn = true;
-					animate();
+				if (form.type === goal) {
+					destroys.push(form);
+					game.forms.splice(index, 1);
+					if(!animationOn) {
+						animationOn = true;
+						animate();
+					}
 				}
 			}
 		});

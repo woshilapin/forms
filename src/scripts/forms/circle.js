@@ -18,6 +18,7 @@ function Circle(args) {
 		return false;
 	}
 	return {
+		type: 'circle',
 		center,
 		radius,
 		color,
