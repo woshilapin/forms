@@ -1,3 +1,7 @@
+:root {
+	--replayColor: gray(33%);
+}
+
 html,
 body {
 	margin: 0;
@@ -13,13 +17,13 @@ body {
 	left: 0;
 	width: 0;
 	height: 0;
-	background: gray(33%);
+	background-image: radial-gradient(var(--replayColor) 33%, color(var(--replayColor) alpha(66%)) 100%);
 	opacity: 0;
 
 	&.animate {
 		width: 100vw;
 		height: 100vh;
-		opacity: 0.8;
+		opacity: 0.98;
 		transition-property: opacity;
 		transition-duration: 2s;
 		transition-timing-function: ease-in-out;
