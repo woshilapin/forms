@@ -121,6 +121,14 @@ window.addEventListener('load', () => {
 		}
 	}
 
+	function reset() {
+		if (replay.classList.contains('animate')) {
+			replay.classList.remove('animate');
+			replayAnimal.style.display = 'none';
+			init();
+		}
+	}
+
 	let replay = document.getElementById('replay');
 	let replayAnimal = document.getElementById('animal');
 	let animals = ['pony', 'doggy', 'kitty', 'foxy'];
@@ -129,15 +137,12 @@ window.addEventListener('load', () => {
 		replayAnimal.src = `images/${animal}.gif`;
 		replayAnimal.style.display = 'block';
 		replay.classList.add('animate');
+		setTimeout(reset, 5000);
 	}
 
 	replay.addEventListener('click', event => {
 		event.stopPropagation();
-		if (replay.classList.contains('animate')) {
-			init();
-			replayAnimal.style.display = 'none';
-			replay.classList.remove('animate');
-		}
+		reset();
 	});
 
 	canvas.addEventListener('click', event => {
