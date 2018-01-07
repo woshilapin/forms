@@ -7,9 +7,9 @@ function Losange(args) {
 	function update(center, radius) {
 		corners = [
 			[center[0], center[1] - radius],
-			[center[0] + radius, center[1]],
+			[center[0] + radius/2, center[1]],
 			[center[0], center[1] + radius],
-			[center[0] - radius, center[1]],
+			[center[0] - radius/2, center[1]],
 		];
 	}
 	function draw(context) {
@@ -28,10 +28,10 @@ function Losange(args) {
 		let cx = this.center[0];
 		let cy = this.center[1];
 		let r = this.radius;
-		if ((y >= x + cy - r - cx)
-		&& (y <= -x + cy + r + cx)
-		&& (y <= x + cy + r - cx)
-		&& (y >= -x + cy - r + cx)) {
+		if((y <= 2*x + cy + r - 2*cx)
+			&& (y >= -2*x + cy - r + 2*cx)
+			&& (y >= 2*x + cy - r - 2*cx)
+			&& (y <= -2*x + cy + r + 2*cx)) {
 			return true;
 		}
 		return false;
